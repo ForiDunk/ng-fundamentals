@@ -4,9 +4,9 @@ import { Component } from '@angular/core';
 // tslint:disable-next-line: component-selector
   selector: 'events-app',
   template: `
-    <h1>Heloooooo</h1>
+    <h2>Heloooooo</h2>
+    <img src="/assets/images/basic-shield.png" />
   `
 })
 export class EventsAppComponent {
-  title = 'ng-fundamentals';
 }
