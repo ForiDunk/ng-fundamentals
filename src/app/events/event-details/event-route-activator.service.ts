@@ -11,6 +11,7 @@ export class EventRouteActivator implements CanActivate {
               private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot) {
+// tslint:disable-next-line: no-string-literal
     const eventExists = !!this.eventService.getEvent(+route.params['id']);
 
     if (!eventExists) {
