@@ -28,7 +28,19 @@ import { Error404Component } from './errors/404.component';
     CreateEventComponent,
     Error404Component
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'canDeactivateCreateEvent',
+      useValue: checkDirtyState
+    }
+  ],
   bootstrap: [EventsAppComponent]
 })
-export class AppModule { }
+export class AppModule {}
+
+export function checkDirtyState(component: CreateEventComponent) {
+  if (component.isDirty) {
+    return window.confirm('You have not saved this event, do you really want to cancel?');
+  }
+  return true;
+}
