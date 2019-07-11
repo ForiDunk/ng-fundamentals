@@ -333,4 +333,9 @@ export class EventService {
 
     EVENTS.push(event);
   }
+
+  updateEvent(event: IEvent) {
+    const index = EVENTS.findIndex(x => x.id === event.id);
+    EVENTS[index] = event;
+  }
 }
