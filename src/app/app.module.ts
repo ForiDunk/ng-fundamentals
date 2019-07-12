@@ -20,6 +20,12 @@ import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { DurationPipe } from './events/shared/duration.pipe';
 import toastr from 'toastr';
 import { TOASTR_TOKEN } from './common/toastr.service';
+import { JQ_TOKEN } from './common/jQuery.service';
+import { SimpleModalComponent } from './common/simple-modal.component';
+import { ModalTriggereDirective } from './common/modal-trigger.directive';
+
+// tslint:disable-next-line: no-string-literal
+const jQuery = window['$'];
 
 @NgModule({
   imports: [
@@ -39,11 +45,14 @@ import { TOASTR_TOKEN } from './common/toastr.service';
     CreateSessionComponent,
     SessionListComponent,
     CollapsibleWellComponent,
-    DurationPipe
+    DurationPipe,
+    SimpleModalComponent,
+    ModalTriggereDirective
   ],
   providers: [
     {provide: 'canDeactivateCreateEvent', useValue: checkDirtyState},
-    {provide: TOASTR_TOKEN, useValue: toastr}
+    {provide: TOASTR_TOKEN, useValue: toastr},
+    {provide: JQ_TOKEN, useValue: jQuery},
   ],
   bootstrap: [EventsAppComponent]
 })

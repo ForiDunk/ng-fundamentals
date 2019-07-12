@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { IEvent } from './event.model';
+import { IEvent, ISession } from './event.model';
 
 const EVENTS: IEvent[] = [
   {
@@ -86,7 +86,7 @@ const EVENTS: IEvent[] = [
     name: 'ng-nl',
     date: new Date('4/15/2037'),
     time: '9:00 am',
-    price: 950.00,
+    price: 950.0,
     imageUrl: '/assets/images/ng-nl.png',
     onlineUrl: 'http://ng-nl.org/',
     sessions: [
@@ -134,7 +134,7 @@ const EVENTS: IEvent[] = [
         of the United States through his amazing programming skills,
         showing how you too can be success with just attitude.`,
         voters: ['bradgreen']
-      },
+      }
     ]
   },
   {
@@ -142,7 +142,7 @@ const EVENTS: IEvent[] = [
     name: 'ng-conf 2037',
     date: new Date('5/4/2037'),
     time: '9:00 am',
-    price: 759.00,
+    price: 759.0,
     imageUrl: '/assets/images/ng-conf.png',
     location: {
       address: 'The Palatial America Hotel',
@@ -216,7 +216,7 @@ const EVENTS: IEvent[] = [
         to use directives in your Angular 4 development while drawing lessons from the new movie,
         featuring all your favorite characters like Han Solo's ghost and Darth Jar Jar.`,
         voters: ['bradgreen', 'martinfowler']
-      },
+      }
     ]
   },
   {
@@ -224,7 +224,7 @@ const EVENTS: IEvent[] = [
     name: 'UN Angular Summit',
     date: new Date('6/10/2037'),
     time: '8:00 am',
-    price: 800.00,
+    price: 800.0,
     imageUrl: '/assets/images/basic-shield.png',
     location: {
       address: 'The UN Angular Center',
@@ -265,7 +265,7 @@ const EVENTS: IEvent[] = [
         the latest Destiny DLC, but we can still improve the massages they give and the handmade
         brie they make using Angular 4. This session will show you how.`,
         voters: ['igorminar', 'johnpapa']
-      },
+      }
     ]
   },
   {
@@ -273,7 +273,7 @@ const EVENTS: IEvent[] = [
     name: 'ng-vegas',
     date: new Date('2/10/2037'),
     time: '9:00 am',
-    price: 400.00,
+    price: 400.0,
     imageUrl: '/assets/images/ng-vegas.png',
     location: {
       address: 'The Excalibur',
@@ -313,7 +313,6 @@ const EVENTS: IEvent[] = [
   providedIn: 'root'
 })
 export class EventService {
-
   getEvents(): Observable<IEvent[]> {
     const subject = new Subject<IEvent[]>();
     setTimeout(() => {
@@ -337,5 +336,28 @@ export class EventService {
   updateEvent(event: IEvent) {
     const index = EVENTS.findIndex(x => x.id === event.id);
     EVENTS[index] = event;
+  }
+
+  searchSessions(searchTerm: string) {
+    const term = searchTerm.toLocaleLowerCase();
+    let results: ISession[] = [];
+
+    EVENTS.forEach(event => {
+      let matchingSessions = event.sessions.filter(
+        session => session.name.toLocaleLowerCase().indexOf(term) > -1
+      );
+      matchingSessions = matchingSessions.map((session: any) => {
+        session.eventId = event.id;
+        return session;
+      });
+      results = results.concat(matchingSessions);
+    });
+
+    const emitter = new EventEmitter(true);
+    setTimeout(() => {
+      emitter.emit(results);
+    }, 100);
+
+    return emitter;
   }
 }
