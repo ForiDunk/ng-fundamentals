@@ -23,6 +23,7 @@ import { TOASTR_TOKEN } from './common/toastr.service';
 import { JQ_TOKEN } from './common/jQuery.service';
 import { SimpleModalComponent } from './common/simple-modal.component';
 import { ModalTriggereDirective } from './common/modal-trigger.directive';
+import { UpvoteComponent } from './events/event-details/upvote.component';
 
 // tslint:disable-next-line: no-string-literal
 const jQuery = window['$'];
@@ -47,7 +48,8 @@ const jQuery = window['$'];
     CollapsibleWellComponent,
     DurationPipe,
     SimpleModalComponent,
-    ModalTriggereDirective
+    ModalTriggereDirective,
+    UpvoteComponent
   ],
   providers: [
     {provide: 'canDeactivateCreateEvent', useValue: checkDirtyState},
